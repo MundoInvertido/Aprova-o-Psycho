@@ -146,6 +146,7 @@
                         <h4 class="text-xl font-bold text-center mb-4">Instruções da Amostra BFP</h4>
                         <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
                             <li>Serão apresentadas <strong>10 frases</strong>.</li>
+                            <li>Você terá <strong>3 minutos</strong> para responder.</li>
                             <li>Para cada uma, indique o quanto você concorda usando a escala de 1 a 7.</li>
                             <li>Não há respostas "certas" ou "erradas".</li>
                         </ul>
@@ -156,7 +157,7 @@
                     <div x-show="state === 'testing'">
                         <div class="flex justify-between items-center mb-4">
                             <span class="font-bold text-lg" x-text="`Questão ${currentQuestionIndex + 1} de 10`"></span>
-                            <span class="font-semibold tabular-nums text-accent-blue" x-text="timer">00:00</span>
+                            <span class="font-semibold tabular-nums text-red-400" x-text="timer">03:00</span>
                         </div>
                         <div class="w-full bg-[#333] rounded-full h-2.5 mb-6">
                             <div class="bg-accent-pink h-2.5 rounded-full" :style="`width: ${((currentQuestionIndex + 1) / 10) * 100}%`"></div>
@@ -228,7 +229,7 @@
                             </div>
                         </div>
                         <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
-                            <li>Você terá <strong>5 minutos</strong> para encontrar todos os alvos.</li>
+                            <li>Você terá <strong>3 minutos</strong> para encontrar todos os alvos.</li>
                             <li>Tente ser rápido e preciso!</li>
                         </ul>
                         <button @click="startTest()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
@@ -316,8 +317,8 @@
                     <div x-show="state === 'instructions'">
                         <h4 class="text-xl font-bold text-center mb-4">Instruções do Teste de Memória</h4>
                         <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
-                            <li><strong>Fase 1 (Memorização):</strong> Você terá <strong>2 minutos</strong> para memorizar um conjunto de figuras.</li>
-                            <li><strong>Fase 2 (Reconhecimento):</strong> As figuras originais serão misturadas com novas. Você terá <strong>4 minutos</strong> para clicar apenas nas que você memorizou.</li>
+                            <li><strong>Fase 1 (Memorização):</strong> Você terá <strong>1 minuto</strong> para memorizar um conjunto de figuras.</li>
+                            <li><strong>Fase 2 (Reconhecimento):</strong> As figuras originais serão misturadas com novas. Você terá <strong>1 minuto</strong> para clicar apenas nas que você memorizou.</li>
                         </ul>
                         <button @click="startMemorization()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
                             Começar
@@ -481,9 +482,28 @@
 
             Alpine.data('bfpSimulator', () => ({
                 questions: [ { id: 1, text: "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS", scale: "A2" }, { id: 2, text: "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM", scale: "S1" }, { id: 3, text: "GOSTO DE FALAR SOBRE MIM", scale: "E2" }, { id: 4, text: "TENHO UM CORAÇÃO MOLE", scale: "S1" }, { id: 5, text: "FALO TUDO QUE PENSO", scale: "E2" }, { id: 6, text: "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES", scale: "A3" }, { id: 7, text: "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES", scale: "S3" }, { id: 8, text: "SOU DIVERTIDO", scale: "E4" }, { id: 9, text: "TOMO CUIDADO COM O QUE FALO", scale: "R2" }, { id: 10, text: "DIFICILMENTE PERDOO", scale: "S3" } ],
-                state: 'instructions', currentQuestionIndex: 0, answers: {}, scaleLabels: ['Discordo totalmente', 'Discordo', 'Discordo em parte', 'Não concordo nem discordo', 'Concordo em parte', 'Concordo', 'Concordo totalmente'], startTime: 0, timer: '00:00', interval: null,
-                startTest() { this.state = 'testing'; this.startTime = Date.now(); this.interval = setInterval(() => { const seconds = Math.floor((Date.now() - this.startTime) / 1000); const minutes = Math.floor(seconds / 60); const displaySeconds = seconds % 60; this.timer = `${String(minutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}`; }, 1000); },
-                resetTest() { this.state = 'instructions'; this.currentQuestionIndex = 0; this.answers = {}; clearInterval(this.interval); this.timer = '00:00'; },
+                state: 'instructions', currentQuestionIndex: 0, answers: {}, scaleLabels: ['Discordo totalmente', 'Discordo', 'Discordo em parte', 'Não concordo nem discordo', 'Concordo em parte', 'Concordo', 'Concordo totalmente'], 
+                timeLeft: 180, timer: '03:00', interval: null,
+                startTest() { 
+                    this.state = 'testing'; 
+                    this.timeLeft = 180;
+                    this.interval = setInterval(() => {
+                        this.timeLeft--;
+                        const minutes = Math.floor(this.timeLeft / 60);
+                        const seconds = this.timeLeft % 60;
+                        this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                        if (this.timeLeft <= 0) {
+                            this.showPreviewResults();
+                        }
+                    }, 1000); 
+                },
+                resetTest() { 
+                    this.state = 'instructions'; 
+                    this.currentQuestionIndex = 0; 
+                    this.answers = {}; 
+                    clearInterval(this.interval); 
+                    this.timer = '03:00'; 
+                },
                 selectAnswer(value) { const questionId = this.questions[this.currentQuestionIndex].id; this.answers[questionId] = value; },
                 nextQuestion() { if (this.currentQuestionIndex < this.questions.length - 1) { this.currentQuestionIndex++; } },
                 prevQuestion() { if (this.currentQuestionIndex > 0) { this.currentQuestionIndex--; } },
@@ -491,7 +511,7 @@
             }));
 
             Alpine.data('teadiSimulator', () => ({
-                state: 'instructions', timer: '05:00', timeLeft: 300, interval: null, gridItems: [], totalTargets: 22, hits: 0, errors: 0, omissions: 0,
+                state: 'instructions', timer: '03:00', timeLeft: 180, interval: null, gridItems: [], totalTargets: 22, hits: 0, errors: 0, omissions: 0,
                 symbols: [ { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-8 6 8H6z"/><line x1="12" y1="18" x2="12" y2="22"/></svg>', isTarget: true }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6v12z"/><line x1="12" y1="12" x2="18" y2="12"/></svg>', isTarget: true }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l6-6-6-6v12z"/><line x1="12" y1="12" x2="6" y2="12"/></svg>', isTarget: true }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 8 6-8H6z"/><line x1="12" y1="2" x2="12" y2="6"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-8 6 8H6z"/><line x1="12" y1="2" x2="12" y2="6"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 8 6-8H6z"/><line x1="12" y1="18" x2="12" y2="22"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6v12z"/><line x1="3" y1="12" x2="9" y2="12"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l6-6-6-6v12z"/><line x1="15" y1="12" x2="21" y2="12"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-8 6 8H6z"/><line x1="15" y1="19" x2="21" y2="19"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 8 6-8H6z"/><line x1="3" y1="5" x2="9" y2="5"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6v12z"/><line x1="13" y1="6" x2="13" y2="10"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l6-6-6-6v12z"/><line x1="11" y1="14" x2="11" y2="18"/></svg>', isTarget: false }, ],
                 generateGrid() {
                     this.gridItems = []; let targetsPlaced = 0; const totalItems = 198; const items = [];
@@ -504,7 +524,7 @@
                     this.gridItems = items;
                 },
                 startTest() {
-                    this.generateGrid(); this.state = 'testing'; this.timeLeft = 300;
+                    this.generateGrid(); this.state = 'testing'; this.timeLeft = 180;
                     this.interval = setInterval(() => { this.timeLeft--; const minutes = Math.floor(this.timeLeft / 60); const seconds = this.timeLeft % 60; this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`; if (this.timeLeft <= 0) { this.endTest(); } }, 1000);
                 },
                 selectItem(item, index) {
@@ -513,7 +533,7 @@
                     if (item.isTarget) { this.hits++; if(this.hits === this.totalTargets) { this.endTest(); } } else { this.errors++; }
                 },
                 endTest() { clearInterval(this.interval); this.omissions = this.totalTargets - this.hits; this.state = 'results'; },
-                resetTest() { this.state = 'instructions'; this.hits = 0; this.errors = 0; this.omissions = 0; this.timer = '05:00'; clearInterval(this.interval); },
+                resetTest() { this.state = 'instructions'; this.hits = 0; this.errors = 0; this.omissions = 0; this.timer = '03:00'; clearInterval(this.interval); },
                 resultMessage() {
                     const score = this.hits - (this.errors + this.omissions);
                     if (score >= 18) return { title: 'Excelente Desempenho!', message: 'Sua pontuação final é muito alta, indicando atenção e precisão em nível de excelência.' };
@@ -586,12 +606,12 @@
                 startMemorization() {
                     this.setupTest();
                     this.state = 'memorizing';
-                    this.startTimer(120, () => this.startRecognition());
+                    this.startTimer(60, () => this.startRecognition());
                 },
                 
                 startRecognition() {
                     this.state = 'recognizing';
-                    this.startTimer(240, () => this.endTest());
+                    this.startTimer(60, () => this.endTest());
                 },
 
                 selectItem(item, index) {
@@ -631,5 +651,4 @@
 
 </body>
 </html>
-
 
