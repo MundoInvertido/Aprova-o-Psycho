@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simuladores - Aprovação Psycho</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #f0f0f0;
+            --text-dark: #a0a0a0;
+        }
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        .cta-button { 
+            transition: all 0.3s ease; 
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        .cta-button:hover { 
+            background-color: transparent;
+            color: var(--accent-pink);
+        }
+        .section-title { 
+            font-weight: 900; 
+            color: var(--text-light);
+        }
+        .section-subtitle {
+             color: var(--primary-purple);
+        }
+        .card {
+             background-color: var(--bg-card);
+             border-radius: 0.75rem;
+             border: 1px solid #333;
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
+            border-color: var(--primary-purple);
+        }
+        .bfp-scale-option { border: 2px solid #333; transition: all 0.2s ease-in-out; }
+        .bfp-scale-option.selected { border-color: var(--accent-pink); background-color: #ff00ff20; transform: scale(1.05); }
+        
+        .teadi-grid-item { transition: all 0.2s ease; border: 1px solid #333; background-color: var(--bg-card); }
+        .teadi-grid-item.selected-correct { background-color: #00ff0030; border-color: #00ff00; transform: scale(1.05); }
+        .teadi-grid-item.selected-incorrect { background-color: #ff000030; border-color: #ff0000; transform: scale(1.05); }
+
+        .mvr-grid-item { transition: all 0.2s ease; border: 2px solid #333; }
+        .mvr-grid-item.selected { border-color: var(--accent-blue); background-color: #00c2ff20; transform: scale(1.05); }
+
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body x-data="{ currentSimulator: 'selection' }">
+
+    <!-- Header -->
+    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARgAAACvCAMAAAD9V3GsAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGSUExURQAAAP////8AAMDAwP+/v/8AAIAAAP8BAf8CAv8DA/8EBP8FBf8GBv8HB/8ICP8JCf8KCv8LC/8MDP8NDf8ODv8PD/8QEP8REf8SEv8TE/8UEP8VFP8WFn0dGf8aGvwcHPseHv4gIP8jI/8kJP8mJv8nJ/8oKP8qKv8sLP8uLv8vL/8xMf8yMv8zM/80NP82Nv83N/84OP86Ov87O/88PP8+Pv8/P/9AQP9BQX9CQn9DQ39ERH9FRX9GRn9HR39ISIBJSX9LS39MTH9NTX9PT39QUH9RUX9TU39VVX9WVn9XV39YWH9ZWYBaWn9bW39cXH9dXf9fYP9gYP9hYf9jY/9kZP9lZf9mZv9nZ/9oaf9pqf9qav9ra/9tbP9ubv9xcf9zdf90dP91df92dv93d/94eP95ef97fP98fP99ff+AgP+Bgf+Cgv+DhP+EhP+Ghv+Hh/+IiP+Kiv+MjP+Ojv+QkP+Tk/+cnP+goP+kpP+oqP+rq/+ysv+3t//AwP/Fxf/Nzv/V1f/c3P/k5P/t7f/z8//9/f8m2oIAAAAJcEhczAADsMAAA7DAcdvqGQAAAHySURBVHja7d1HV6JgGIBhEwMbsSO2YBHsarAVu3Z3d3d3d3d3d5P//8hJSCYkhAMhL/sBjw8hIYf7hDkGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgD+J8P+wJEmSJElydYt+k0Mty7Isy7IsS5J0Z3t+0Gf47Yf7dZ7Ntm3btm3b1q2+8b/v6qG2Hj948ODBgwcPHz9+3atP+K//e1cPte3w4cOHDx8+fPhw4sSJr37hC//zrx5q2+HFixcvXrx48eLFihUrfvWb3/y/f/VQ2w4fPnx48ODBgwf/8+L5V5/whf/5Vw+1-fDhxIkTJ06cOHHixIkTJ179whf+51891LbDhxMnTpw4cSL955MnTpyo/9Xf/Of/7aOG2g4fPnx48ODBgwf/8+LFq3/xGf/1Xz3UtsOHDx8+fPjw4cOJEyf+5Vf/4jP+6796qG2HDx8+fPjw4cGDB/9z8drVb37z//6rh9p2+HDixIkTJ06cOHHixIkTJ179whf+51891LbDhxMnTpw4cSL955MnTpyo/9Xf/Of/7aOG2g4fPnx48ODBgwf/8+LFq3/xGf/1Xz3UtsOHDx8+fPjw4cOJEyf+5Vf/4jP+6796qG2HDx8+fPjw4cGDB/9z8drVb37z//6rh9p2+HDixIkTJ06cOHHiRIkSJV79whf+51891LbDhxMnTpw4cSL955MnTpyo/9Xf/Of/7aOG2g4fPnx48ODBgwf/8+LFq3/xGf/1Xz3UtsOHDx8+fPjw4cOJEyf+5Vf/4jP+6796qG2HDx8+fPjw4cGDB/9z8drVb37z//6rh9p2+HDixIkTJ06cOHEiRcoqv8g/qE7hH4X/T0mSJMnu+1//Wbbt6rf/t7Isy7Isy/Yvf/mf2bZt27ZtW5KEvP87AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+K/wG7u2361WvQeUAAAAASUVORK5CYII=" alt="Aprovação Psycho Logo" class="h-12 w-auto">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">Sobre</a>
+                <a href="dicas.html" class="text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
+                <a href="simuladores.html" class="text-accent-pink font-bold transition">Simuladores</a>
+                <a href="index.html#contato" class="text-text-dark hover:text-accent-pink transition">Contato</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button-sim" class="text-text-dark hover:text-accent-pink focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu-sim" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">Sobre</a>
+            <a href="dicas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
+            <a href="simuladores.html" class="block py-2 text-accent-pink font-bold transition">Simuladores</a>
+            <a href="index.html#contato" class="block py-2 text-text-dark hover:text-accent-pink transition">Contato</a>
+        </div>
+    </header>
+
+    <!-- Simulator Selection View -->
+    <div x-show="currentSimulator === 'selection'" x-transition.opacity>
+        <main class="py-20">
+            <div class="container mx-auto px-6">
+                <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Nossos Simuladores Gratuitos</h1>
+                <p class="text-center section-subtitle mb-12">Tenha uma prévia do que você aprenderá na mentoria.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                    <div @click="currentSimulator = 'bfp'" class="p-8 card text-center cursor-pointer">
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Amostra do Teste BFP</h3>
+                        <p class="text-text-dark mb-6">Responda 10 questões e receba uma análise preliminar do seu perfil.</p>
+                        <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
+                    </div>
+                    <div @click="currentSimulator = 'teadi'" class="p-8 card text-center cursor-pointer">
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador TEADI</h3>
+                        <p class="text-text-dark mb-6">Teste sua atenção dividida em uma simulação fiel ao teste oficial.</p>
+                        <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
+                    </div>
+                     <div @click="currentSimulator = 'mvr'" class="p-8 card text-center cursor-pointer">
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador MVR (Memória)</h3>
+                        <p class="text-text-dark mb-6">Teste sua memória visual reconhecendo figuras em um tempo limitado.</p>
+                        <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
+                    </div>
+                    <div @click="currentSimulator = 'interview'" class="p-8 card text-center cursor-pointer">
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Entrevista com IA</h3>
+                        <p class="text-text-dark mb-6">Receba um feedback instantâneo da nossa IA para a pergunta mais comum.</p>
+                        <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- BFP Simulator View -->
+    <div x-show="currentSimulator === 'bfp'" x-cloak x-transition.opacity>
+        <main class="py-12 md:py-20">
+            <div class="container mx-auto px-6">
+                <button @click="currentSimulator = 'selection'" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Voltar para Seleção
+                </button>
+                <div class="mb-10 text-center">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Amostra do Teste de Personalidade (BFP)</h1>
+                    <p class="mt-4 text-lg text-text-dark max-w-3xl mx-auto">Responda às 10 questões para ter uma prévia da sua avaliação.</p>
+                </div>
+                <div x-data="bfpSimulator()" class="max-w-4xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card text-text-light">
+                    <div x-show="state === 'instructions'">
+                        <h4 class="text-xl font-bold text-center mb-4">Instruções da Amostra BFP</h4>
+                        <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
+                            <li>Serão apresentadas <strong>10 frases</strong>.</li>
+                            <li>Para cada uma, indique o quanto você concorda usando a escala de 1 a 7.</li>
+                            <li>Não há respostas "certas" ou "erradas".</li>
+                        </ul>
+                        <button @click="startTest()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
+                            Iniciar Amostra
+                        </button>
+                    </div>
+                    <div x-show="state === 'testing'">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-bold text-lg" x-text="`Questão ${currentQuestionIndex + 1} de 10`"></span>
+                            <span class="font-semibold tabular-nums text-accent-blue" x-text="timer">00:00</span>
+                        </div>
+                        <div class="w-full bg-[#333] rounded-full h-2.5 mb-6">
+                            <div class="bg-accent-pink h-2.5 rounded-full" :style="`width: ${((currentQuestionIndex + 1) / 10) * 100}%`"></div>
+                        </div>
+                        <p class="text-center text-xl font-semibold my-6 min-h-[6rem] flex items-center justify-center" x-text="questions[currentQuestionIndex]?.text"></p>
+                        <div class="grid grid-cols-2 md:grid-cols-7 gap-2 text-center mb-8">
+                            <template x-for="i in 7" :key="i">
+                                <div @click="selectAnswer(i)" 
+                                     :class="{ 'selected': answers[questions[currentQuestionIndex]?.id] === i }"
+                                     class="bfp-scale-option p-3 rounded-lg cursor-pointer">
+                                    <span class="font-bold text-lg" x-text="i"></span>
+                                    <span class="text-xs block text-text-dark" x-text="scaleLabels[i-1]"></span>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="flex justify-between">
+                            <button @click="prevQuestion()" :disabled="currentQuestionIndex === 0" class="px-6 py-2 bg-[#333] text-text-light rounded-md disabled:opacity-50">Anterior</button>
+                            <button x-show="currentQuestionIndex < 9" @click="nextQuestion()" :disabled="!answers[questions[currentQuestionIndex]?.id]" class="px-6 py-2 bg-primary-purple text-white font-semibold rounded-md disabled:opacity-50">Próxima</button>
+                            <button x-show="currentQuestionIndex === 9" @click="showPreviewResults()" :disabled="Object.keys(answers).length !== 10" class="px-6 py-2 bg-accent-blue text-white font-semibold rounded-md disabled:opacity-50">Finalizar</button>
+                        </div>
+                    </div>
+                    <div x-show="state === 'results'">
+                        <h4 class="text-2xl font-bold text-center mb-4">Sua Análise Preliminar</h4>
+                        <div class="space-y-4 mb-6">
+                            <div class="bg-green-500/10 border-l-4 border-green-500 text-text-light p-4">
+                                <p class="font-bold text-green-400">Pontos Fortes</p>
+                                <p>Suas respostas indicam traços de <strong>sociabilidade</strong> e <strong>respeito às regras</strong>, características positivas para o perfil policial.</p>
+                            </div>
+                            <div class="bg-red-500/10 border-l-4 border-red-500 text-text-light p-4">
+                                <p class="font-bold text-red-400">Pontos de Atenção</p>
+                                <p>Algumas respostas podem sugerir uma tendência à <strong>impulsividade</strong> ou <strong>dificuldade em perdoar</strong>, traços que precisam de ser bem administrados na carreira.</p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-500/10 border-l-4 border-yellow-400 p-4 my-6">
+                           <p class="font-bold text-yellow-400">Quer uma análise completa e detalhada?</p>
+                           <p class="text-sm text-text-dark">O teste completo avalia 5 grandes fatores da personalidade através de 126 questões. Entender seu perfil em detalhes é crucial para a aprovação.</p>
+                        </div>
+                        <a href="https://wa.me/5500000000000?text=Olá!%20Fiz%20a%20amostra%20do%20teste%20BFP%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20análise%20completa%20e%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
+                            Falar com Especialista
+                        </a>
+                        <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Amostra</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- TEADI Simulator View -->
+    <div x-show="currentSimulator === 'teadi'" x-cloak x-transition.opacity>
+        <main class="py-12 md:py-20">
+            <div class="container mx-auto px-6">
+                <button @click="currentSimulator = 'selection'" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Voltar para Seleção
+                </button>
+                <div class="mb-10 text-center">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Atenção Dividida (TEADI)</h1>
+                    <p class="text-center text-lg text-text-dark max-w-3xl mx-auto mt-4">Encontre os 3 símbolos-alvo o mais rápido que puder. Pontuação = Acertos - (Erros + Omissões).</p>
+                </div>
+                <div x-data="teadiSimulator()" class="max-w-6xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card">
+                     <div x-show="state === 'instructions'">
+                        <h4 class="text-xl font-bold text-center mb-4 text-text-light">Instruções</h4>
+                        <div class="bg-bg-dark p-4 rounded-lg mb-6 text-center">
+                            <span class="font-semibold block mb-4 text-text-dark">Seu objetivo é encontrar e clicar em todos os símbolos como estes 3 abaixo:</span>
+                            <div class="flex justify-center items-center space-x-4">
+                                <div class="w-12 h-12 flex items-center justify-center bg-bg-card border-2 border-accent-pink rounded-md text-accent-pink" x-html="symbols[0].svg"></div>
+                                <div class="w-12 h-12 flex items-center justify-center bg-bg-card border-2 border-accent-pink rounded-md text-accent-pink" x-html="symbols[1].svg"></div>
+                                <div class="w-12 h-12 flex items-center justify-center bg-bg-card border-2 border-accent-pink rounded-md text-accent-pink" x-html="symbols[2].svg"></div>
+                            </div>
+                        </div>
+                        <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
+                            <li>Você terá <strong>5 minutos</strong> para encontrar todos os alvos.</li>
+                            <li>Tente ser rápido e preciso!</li>
+                        </ul>
+                        <button @click="startTest()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
+                            Iniciar Teste de Atenção
+                        </button>
+                    </div>
+                    <div x-show="state === 'testing'">
+                        <div class="flex flex-col md:flex-row justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg gap-4 text-text-light">
+                            <div class="text-center">
+                                <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
+                                <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-bold text-green-400">ACERTOS</div>
+                                <div class="text-2xl font-bold" x-text="hits"></div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-bold text-red-400">ERROS</div>
+                                <div class="text-2xl font-bold" x-text="errors"></div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-bold text-accent-blue">ALVOS RESTANTES</div>
+                                <div class="text-2xl font-bold" x-text="totalTargets - hits"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-11 sm:grid-cols-18 gap-1 text-text-light">
+                            <template x-for="(item, index) in gridItems" :key="index">
+                                <div @click="selectItem(item, index)"
+                                     :class="{ 'selected-correct': item.selected && item.isTarget, 'selected-incorrect': item.selected && !item.isTarget }"
+                                     class="teadi-grid-item w-full aspect-square flex items-center justify-center cursor-pointer">
+                                    <div x-html="item.svg" class="w-6 h-6"></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div x-show="state === 'results'">
+                         <h4 class="text-2xl font-bold text-center mb-4 text-text-light">Resultado do Teste de Atenção</h4>
+                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center mb-8 text-text-light">
+                             <div class="p-4 bg-green-500/10 rounded-lg">
+                                 <p class="text-sm font-bold text-green-400">ACERTOS</p>
+                                 <p class="text-3xl font-bold" x-text="hits"></p>
+                             </div>
+                             <div class="p-4 bg-red-500/10 rounded-lg">
+                                 <p class="text-sm font-bold text-red-400">ERROS</p>
+                                 <p class="text-3xl font-bold" x-text="errors"></p>
+                             </div>
+                             <div class="p-4 bg-yellow-500/10 rounded-lg">
+                                 <p class="text-sm font-bold text-yellow-400">OMISSÕES</p>
+                                 <p class="text-3xl font-bold" x-text="omissions"></p>
+                             </div>
+                             <div class="p-4 bg-primary-purple/20 rounded-lg">
+                                 <p class="text-sm font-bold text-primary-purple">PONTUAÇÃO FINAL</p>
+                                 <p class="text-3xl font-bold" x-text="hits - errors - omissions"></p>
+                             </div>
+                         </div>
+                        <div class="bg-bg-dark border-l-4 border-accent-pink p-4 text-center my-6">
+                           <p class="font-bold text-accent-pink" x-text="resultMessage().title"></p>
+                           <p class="text-sm text-text-dark" x-text="resultMessage().message"></p>
+                        </div>
+                        <p class="text-center text-text-dark mb-8">A atenção dividida é crucial para a atividade policial. Em nossa mentoria, aplicamos técnicas e treinos avançados para maximizar seu desempenho.</p>
+                        <a href="https://wa.me/5500000000000?text=Olá!%20Fiz%20o%20simulado%20TEADI%20e%20quero%20melhorar%20meu%20desempenho%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
+                            Quero Treinar de Verdade
+                        </a>
+                        <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MVR Simulator View -->
+    <div x-show="currentSimulator === 'mvr'" x-cloak x-transition.opacity>
+        <main class="py-12 md:py-20">
+            <div class="container mx-auto px-6">
+                 <button @click="currentSimulator = 'selection'" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Voltar para Seleção
+                </button>
+                <div class="mb-10 text-center">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Memória Visual (MVR)</h1>
+                    <p class="mt-4 text-lg text-text-dark max-w-3xl mx-auto">Memorize as figuras e depois encontre-as no meio de outras. Sua capacidade de memorização será testada!</p>
+                </div>
+                <div x-data="mvrSimulator()" class="max-w-4xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card text-text-light">
+                    <!-- Instructions -->
+                    <div x-show="state === 'instructions'">
+                        <h4 class="text-xl font-bold text-center mb-4">Instruções do Teste de Memória</h4>
+                        <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
+                            <li><strong>Fase 1 (Memorização):</strong> Você terá <strong>2 minutos</strong> para memorizar um conjunto de figuras.</li>
+                            <li><strong>Fase 2 (Reconhecimento):</strong> As figuras originais serão misturadas com novas. Você terá <strong>4 minutos</strong> para clicar apenas nas que você memorizou.</li>
+                        </ul>
+                        <button @click="startMemorization()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
+                            Começar
+                        </button>
+                    </div>
+
+                    <!-- Memorization Phase -->
+                    <div x-show="state === 'memorizing'">
+                        <div class="flex justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg">
+                            <h4 class="text-lg font-bold text-text-light">Fase 1: Memorize estas figuras!</h4>
+                            <div class="text-center">
+                                <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
+                                <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-5 gap-4">
+                            <template x-for="item in memorizationSet" :key="item.id">
+                                <div class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg p-2">
+                                    <div x-html="item.svg" class="w-12 h-12"></div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Recognition Phase -->
+                    <div x-show="state === 'recognizing'">
+                        <div class="flex justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg">
+                            <h4 class="text-lg font-bold text-text-light">Fase 2: Clique nas figuras que você memorizou</h4>
+                            <div class="text-center">
+                                <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
+                                <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-5 md:grid-cols-6 gap-4">
+                             <template x-for="(item, index) in recognitionSet" :key="item.id">
+                                <div @click="selectItem(item, index)"
+                                     :class="{ 'selected': item.selected }"
+                                     class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg p-2 cursor-pointer">
+                                    <div x-html="item.svg" class="w-12 h-12"></div>
+                                </div>
+                            </template>
+                        </div>
+                         <button @click="endTest()" class="mt-8 w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
+                            Finalizar e Ver Resultado
+                        </button>
+                    </div>
+                    
+                    <!-- Results Phase -->
+                     <div x-show="state === 'results'">
+                         <h4 class="text-2xl font-bold text-center mb-4 text-text-light">Resultado do Teste de Memória</h4>
+                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8 text-text-light">
+                             <div class="p-4 bg-green-500/10 rounded-lg">
+                                 <p class="text-sm font-bold text-green-400">ACERTOS</p>
+                                 <p class="text-3xl font-bold" x-text="hits"></p>
+                             </div>
+                             <div class="p-4 bg-red-500/10 rounded-lg">
+                                 <p class="text-sm font-bold text-red-400">ERROS</p>
+                                 <p class="text-3xl font-bold" x-text="errors"></p>
+                             </div>
+                             <div class="p-4 bg-yellow-500/10 rounded-lg">
+                                 <p class="text-sm font-bold text-yellow-400">OMISSÕES</p>
+                                 <p class="text-3xl font-bold" x-text="omissions"></p>
+                             </div>
+                         </div>
+                        <div class="bg-bg-dark border-l-4 border-accent-pink p-4 text-center my-6">
+                           <p class="font-bold text-accent-pink" x-text="resultMessage().title"></p>
+                           <p class="text-sm text-text-dark" x-text="resultMessage().message"></p>
+                        </div>
+                        <p class="text-center text-text-dark mb-8">Uma boa memória visual é um diferencial. Em nossa mentoria, ensinamos técnicas de mnemônica para otimizar sua capacidade de memorização.</p>
+                        <a href="https://wa.me/5500000000000?text=Olá!%20Fiz%20o%20simulado%20MVR%20e%20quero%20melhorar%20minha%20memória%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
+                            Quero Melhorar Minha Memória
+                        </a>
+                        <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Interview Simulator View -->
+    <div x-show="currentSimulator === 'interview'" x-cloak x-transition.opacity>
+        <main class="py-12 md:py-20">
+            <div class="container mx-auto px-6">
+                 <button @click="currentSimulator = 'selection'" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Voltar para Seleção
+                </button>
+                <div class="mb-10 text-center">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">✨ Simulador de Entrevista com IA</h1>
+                    <p class="mt-4 text-lg text-text-dark max-w-3xl mx-auto">Receba um feedback instantâneo da nossa IA para a pergunta mais comum da entrevista.</p>
+                </div>
+                <div x-data="interviewSimulator()" class="max-w-3xl mx-auto p-6 md:p-8 border border-[#333] rounded-lg shadow-lg bg-bg-card">
+                     <label class="block font-bold text-lg mb-2 text-text-light">Pergunta da Entrevista:</label>
+                    <p class="mb-4 text-text-dark p-3 bg-bg-dark rounded-md">"Por que você deseja seguir a carreira policial?"</p>
+                    <label for="user-answer" class="block font-bold text-lg mb-2 text-text-light">Sua Resposta:</label>
+                    <textarea id="user-answer" x-model="userInput" rows="6" class="w-full p-3 border bg-bg-dark border-[#333] rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition text-text-light" placeholder="Digite sua resposta aqui..."></textarea>
+                    <button @click="getFeedback()" :disabled="loading || feedback" class="mt-6 w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span x-show="!loading">Analisar Minha Resposta</span>
+                        <span x-show="loading" class="flex items-center">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Analisando...
+                        </span>
+                    </button>
+                    <div x-show="error" x-text="error" class="mt-4 p-3 bg-red-500/20 text-red-400 rounded-md" style="display: none;"></div>
+                    <div x-show="feedback" x-transition class="mt-8" style="display: none;">
+                        <div class="p-6 bg-accent-blue/10 border border-accent-blue/20 rounded-lg">
+                            <h3 class="font-bold text-xl mb-3 text-accent-blue">Feedback da IA:</h3>
+                            <div x-html="feedback" class="prose max-w-none text-text-dark"></div>
+                        </div>
+                        <div class="text-center p-6 mt-6 bg-bg-dark rounded-lg border border-[#333]">
+                            <h4 class="font-bold text-lg text-text-light">Gostou da análise?</h4>
+                            <p class="text-text-dark my-2">Na mentoria completa, simulamos diversos cenários com análise detalhada de um especialista.</p>
+                            <a href="https://wa.me/5500000000000?text=Olá!%20Recebi%20o%20feedback%20da%20IA%20e%20quero%20saber%20mais%20sobre%20a%20preparação%20para%20a%20entrevista." target="_blank" class="mt-4 cta-button font-bold py-2 px-6 rounded-md inline-flex items-center justify-center">
+                                Quero me preparar de verdade
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer x-show="currentSimulator === 'selection'" class="border-t border-gray-800">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm text-text-dark">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            
+            Alpine.data('interviewSimulator', () => ({
+                userInput: '', loading: false, feedback: null, error: null,
+                async getFeedback() {
+                    if (!this.userInput.trim()) { this.error = 'Por favor, digite sua resposta antes de analisar.'; this.feedback = null; return; }
+                    this.loading = true; this.feedback = null; this.error = null;
+                    const systemPrompt = `Você é um psicólogo especialista em recrutamento para concursos policiais no Brasil. Sua tarefa é analisar a resposta de um candidato à pergunta da entrevista: "Por que você deseja seguir a carreira policial?". Forneça um feedback construtivo, estruturado e em português. Estruture sua resposta da seguinte forma, usando formatação Markdown:\n### Análise da Resposta\n**Pontos Fortes:**\n* [Liste 1 a 3 pontos positivos]\n**Pontos a Melhorar:**\n* [Liste 1 a 3 pontos a aprimorar]\n**Sugestão de Aprimoramento:**\n* [Ofereça uma sugestão concreta de como o candidato pode reformular a resposta.]\nSeja objetivo, profissional e encorajador.`;
+                    const userQuery = `Analise a seguinte resposta: "${this.userInput}"`;
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    const payload = { contents: [{ parts: [{ text: userQuery }] }], systemInstruction: { parts: [{ text: systemPrompt }] }, };
+                    try {
+                        const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                        if (!response.ok) { throw new Error(`Erro na API: ${response.status}`); }
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+                        if (candidate && candidate.content?.parts?.[0]?.text) {
+                            let htmlFeedback = candidate.content.parts[0].text;
+                            htmlFeedback = htmlFeedback.replace(/### (.*)/g, '<h4 class="text-lg font-semibold mb-2 text-text-light">$1</h4>').replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-text-light">$1</strong>').replace(/\* (.*)/g, '<li>$1</li>').replace(/(<\/li>)\s*?(<li>)/g, '$1$2').replace(/(<li>.*<\/li>)/gs, '<ul class="list-disc ml-5 space-y-1">$1</ul>');
+                            this.feedback = htmlFeedback;
+                        } else { throw new Error('A resposta da IA está vazia ou em formato inesperado.'); }
+                    } catch (e) { console.error(e); this.error = 'Não foi possível obter o feedback no momento. Por favor, tente novamente mais tarde.';
+                    } finally { this.loading = false; }
+                }
+            }));
+
+            Alpine.data('bfpSimulator', () => ({
+                questions: [ { id: 1, text: "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS", scale: "A2" }, { id: 2, text: "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM", scale: "S1" }, { id: 3, text: "GOSTO DE FALAR SOBRE MIM", scale: "E2" }, { id: 4, text: "TENHO UM CORAÇÃO MOLE", scale: "S1" }, { id: 5, text: "FALO TUDO QUE PENSO", scale: "E2" }, { id: 6, text: "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES", scale: "A3" }, { id: 7, text: "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES", scale: "S3" }, { id: 8, text: "SOU DIVERTIDO", scale: "E4" }, { id: 9, text: "TOMO CUIDADO COM O QUE FALO", scale: "R2" }, { id: 10, text: "DIFICILMENTE PERDOO", scale: "S3" } ],
+                state: 'instructions', currentQuestionIndex: 0, answers: {}, scaleLabels: ['Discordo totalmente', 'Discordo', 'Discordo em parte', 'Não concordo nem discordo', 'Concordo em parte', 'Concordo', 'Concordo totalmente'], startTime: 0, timer: '00:00', interval: null,
+                startTest() { this.state = 'testing'; this.startTime = Date.now(); this.interval = setInterval(() => { const seconds = Math.floor((Date.now() - this.startTime) / 1000); const minutes = Math.floor(seconds / 60); const displaySeconds = seconds % 60; this.timer = `${String(minutes).padStart(2, '0')}:${String(displaySeconds).padStart(2, '0')}`; }, 1000); },
+                resetTest() { this.state = 'instructions'; this.currentQuestionIndex = 0; this.answers = {}; clearInterval(this.interval); this.timer = '00:00'; },
+                selectAnswer(value) { const questionId = this.questions[this.currentQuestionIndex].id; this.answers[questionId] = value; },
+                nextQuestion() { if (this.currentQuestionIndex < this.questions.length - 1) { this.currentQuestionIndex++; } },
+                prevQuestion() { if (this.currentQuestionIndex > 0) { this.currentQuestionIndex--; } },
+                showPreviewResults() { this.state = 'results'; clearInterval(this.interval); }
+            }));
+
+            Alpine.data('teadiSimulator', () => ({
+                state: 'instructions', timer: '05:00', timeLeft: 300, interval: null, gridItems: [], totalTargets: 22, hits: 0, errors: 0, omissions: 0,
+                symbols: [ { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-8 6 8H6z"/><line x1="12" y1="18" x2="12" y2="22"/></svg>', isTarget: true }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6v12z"/><line x1="12" y1="12" x2="18" y2="12"/></svg>', isTarget: true }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l6-6-6-6v12z"/><line x1="12" y1="12" x2="6" y2="12"/></svg>', isTarget: true }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 8 6-8H6z"/><line x1="12" y1="2" x2="12" y2="6"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-8 6 8H6z"/><line x1="12" y1="2" x2="12" y2="6"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 8 6-8H6z"/><line x1="12" y1="18" x2="12" y2="22"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6v12z"/><line x1="3" y1="12" x2="9" y2="12"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l6-6-6-6v12z"/><line x1="15" y1="12" x2="21" y2="12"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-8 6 8H6z"/><line x1="15" y1="19" x2="21" y2="19"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 8 6-8H6z"/><line x1="3" y1="5" x2="9" y2="5"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6v12z"/><line x1="13" y1="6" x2="13" y2="10"/></svg>', isTarget: false }, { svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l6-6-6-6v12z"/><line x1="11" y1="14" x2="11" y2="18"/></svg>', isTarget: false }, ],
+                generateGrid() {
+                    this.gridItems = []; let targetsPlaced = 0; const totalItems = 198; const items = [];
+                    for (let i = 0; i < totalItems; i++) {
+                        let symbol;
+                        if (targetsPlaced < this.totalTargets && (Math.random() > 0.88 || totalItems - i <= this.totalTargets - targetsPlaced)) { symbol = this.symbols[Math.floor(Math.random() * 3)]; targetsPlaced++; } else { symbol = this.symbols[Math.floor(Math.random() * (this.symbols.length - 3)) + 3]; }
+                        items.push({ ...symbol, selected: false, id: i });
+                    }
+                    for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
+                    this.gridItems = items;
+                },
+                startTest() {
+                    this.generateGrid(); this.state = 'testing'; this.timeLeft = 300;
+                    this.interval = setInterval(() => { this.timeLeft--; const minutes = Math.floor(this.timeLeft / 60); const seconds = this.timeLeft % 60; this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`; if (this.timeLeft <= 0) { this.endTest(); } }, 1000);
+                },
+                selectItem(item, index) {
+                    if (this.state !== 'testing' || item.selected) return;
+                    this.gridItems[index].selected = true;
+                    if (item.isTarget) { this.hits++; if(this.hits === this.totalTargets) { this.endTest(); } } else { this.errors++; }
+                },
+                endTest() { clearInterval(this.interval); this.omissions = this.totalTargets - this.hits; this.state = 'results'; },
+                resetTest() { this.state = 'instructions'; this.hits = 0; this.errors = 0; this.omissions = 0; this.timer = '05:00'; clearInterval(this.interval); },
+                resultMessage() {
+                    const score = this.hits - (this.errors + this.omissions);
+                    if (score >= 18) return { title: 'Excelente Desempenho!', message: 'Sua pontuação final é muito alta, indicando atenção e precisão em nível de excelência.' };
+                    if (score >= 12) return { title: 'Bom Desempenho!', message: 'Você está no caminho certo. Sua pontuação é boa, mas pode ser aprimorada reduzindo erros ou omissões.' };
+                    if (score >= 5) return { title: 'Desempenho Mediano', message: 'É preciso treino! Sua pontuação indica a necessidade de desenvolver estratégias para melhorar o foco e a precisão.' };
+                    return { title: 'Atenção, Candidato!', message: 'Seu resultado está abaixo do esperado. Sua pontuação foi impactada por erros e/ou omissões e precisa de ser trabalhada.' };
+                }
+            }));
+
+            Alpine.data('mvrSimulator', () => ({
+                state: 'instructions', timer: '00:00', timeLeft: 0, interval: null,
+                symbols: [
+                    { id: 1, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"></circle></svg>' },
+                    { id: 2, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>' },
+                    { id: 3, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 L2 22 L22 22 Z"></path></svg>' },
+                    { id: 4, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>' },
+                    { id: 5, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg>' },
+                    { id: 6, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></svg>' },
+                    { id: 7, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"></path></svg>' },
+                    { id: 8, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.99 12.01c-.01-4.6-2.99-8.63-7.2-10.15-1-.35-2.08.35-2.19 1.45-.13 1.25.72 2.37 1.94 2.51 2.31.27 4.13 2.1 4.39 4.41.27 2.37 2.33 4.4 4.71 4.4.19 0 .37-.02.55-.05 1.12-.19 1.83-1.33 1.8-2.47z"></path></svg>' },
+                    { id: 9, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2v11h3v9l7-12h-4l4-8z"></path></svg>' },
+                    { id: 10, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.87 2.13a1 1 0 0 0-1.74 0l-8 14A1 1 0 0 0 4 18h16a1 1 0 0 0 .87-1.87l-8-14z"></path></svg>' },
+                    { id: 11, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"></path></svg>' },
+                    { id: 12, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l-10 7.5 4 12h12l4-12z"></path></svg>' },
+                    { id: 13, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 12l8-8 8 8-8 8-8-8z"></path></svg>' },
+                    { id: 14, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l6-6H6l6 6z"></path></svg>' },
+                    { id: 15, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>' },
+                    { id: 16, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>' },
+                    { id: 17, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"></path></svg>' },
+                    { id: 18, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"></path></svg>' },
+                    { id: 19, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 10a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"></path></svg>' },
+                    { id: 20, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"></path></svg>' },
+                ],
+                memorizationSet: [], recognitionSet: [],
+                hits: 0, errors: 0, omissions: 0,
+                
+                shuffle(array) {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                },
+
+                setupTest() {
+                    const shuffledSymbols = this.shuffle([...this.symbols]);
+                    this.memorizationSet = shuffledSymbols.slice(0, 10).map(s => ({...s, isTarget: true}));
+                    const distractors = shuffledSymbols.slice(10, 20).map(s => ({...s, isTarget: false}));
+                    this.recognitionSet = this.shuffle([...this.memorizationSet, ...distractors]).map(s => ({...s, selected: false}));
+                },
+
+                startTimer(duration, onEnd) {
+                    this.timeLeft = duration;
+                    const update = () => {
+                        const minutes = Math.floor(this.timeLeft / 60);
+                        const seconds = this.timeLeft % 60;
+                        this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    };
+                    update();
+                    this.interval = setInterval(() => {
+                        this.timeLeft--;
+                        update();
+                        if (this.timeLeft <= 0) {
+                            clearInterval(this.interval);
+                            onEnd();
+                        }
+                    }, 1000);
+                },
+
+                startMemorization() {
+                    this.setupTest();
+                    this.state = 'memorizing';
+                    this.startTimer(120, () => this.startRecognition());
+                },
+                
+                startRecognition() {
+                    this.state = 'recognizing';
+                    this.startTimer(240, () => this.endTest());
+                },
+
+                selectItem(item, index) {
+                    if (this.state !== 'recognizing') return;
+                    this.recognitionSet[index].selected = !this.recognitionSet[index].selected;
+                },
+
+                endTest() {
+                    clearInterval(this.interval);
+                    this.hits = this.recognitionSet.filter(item => item.isTarget && item.selected).length;
+                    this.errors = this.recognitionSet.filter(item => !item.isTarget && item.selected).length;
+                    this.omissions = this.memorizationSet.length - this.hits;
+                    this.state = 'results';
+                },
+                
+                resetTest() {
+                    this.state = 'instructions';
+                    this.hits = 0; this.errors = 0; this.omissions = 0;
+                    this.timer = '00:00';
+                    clearInterval(this.interval);
+                },
+
+                resultMessage() {
+                    const score = this.hits - this.errors;
+                    if (score >= 8) return { title: 'Memória Excelente!', message: 'Seu desempenho foi ótimo, com alta taxa de acertos e poucos erros. Você demonstrou uma excelente memória visual.' };
+                    if (score >= 5) return { title: 'Bom Desempenho!', message: 'Você teve um bom resultado, mas pode melhorar a precisão para evitar erros ou omissões.' };
+                    return { title: 'Precisa Treinar!', message: 'Seu resultado indica que é preciso praticar. A memorização de detalhes é uma habilidade que pode ser aprimorada.' };
+                }
+            }));
+            
+            document.getElementById('mobile-menu-button-sim').addEventListener('click', function() {
+                var menu = document.getElementById('mobile-menu-sim');
+                menu.classList.toggle('hidden');
+            });
+        });
+    </script>
+
+</body>
+</html>
+
