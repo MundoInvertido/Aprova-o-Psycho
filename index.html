@@ -17,11 +17,19 @@
             --accent-blue: #00c2ff;
             --text-light: #f0f0f0;
             --text-dark: #a0a0a0;
+            --text-pink: #ff00ff;
         }
         body { 
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-dark);
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(16, 15, 28, 0.9), rgba(16, 15, 28, 1)), url('https://images.unsplash.com/photo-1621243799252-e15a7e937330?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         .cta-button { 
             transition: all 0.3s ease; 
@@ -33,6 +41,7 @@
         .cta-button:hover { 
             background-color: transparent;
             color: var(--accent-pink);
+            transform: scale(1.05);
         }
         .section-title { 
             font-weight: 900; 
@@ -46,11 +55,40 @@
              border-radius: 0.75rem;
              border: 1px solid #333;
              transition: transform 0.3s ease, box-shadow 0.3s ease;
+             overflow: hidden;
         }
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
             border-color: var(--primary-purple);
+        }
+        .career-card .img-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .career-card img {
+            transition: transform 0.4s ease;
+        }
+        .career-card:hover img {
+            transform: scale(1.1);
+        }
+        .career-card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(28, 27, 41, 1) 0%, rgba(28, 27, 41, 0) 60%);
+        }
+         .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: 0.5rem;
+            left: 1rem;
+            font-size: 5rem;
+            color: var(--primary-purple);
+            opacity: 0.1;
+            line-height: 1;
         }
     </style>
 </head>
@@ -62,16 +100,15 @@
             <div class="flex items-center">
                 <a href="index.html" class="flex items-center space-x-2">
                     <span class="text-xl font-black text-text-light tracking-wider">
-                        APROVAÇÃO <span style="color: var(--accent-pink);">PSYCHO</span>
+                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
                     </span>
                 </a>
             </div>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#sobre" class="text-text-dark hover:text-accent-pink transition">Sobre</a>
+                <a href="#sobre" class="text-text-dark hover:text-accent-pink transition">O Curso</a>
                 <a href="#depoimentos" class="text-text-dark hover:text-accent-pink transition">Depoimentos</a>
                 <a href="dicas.html" class="text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
                 <a href="simuladores.html" class="text-text-dark hover:text-accent-pink transition">Simuladores</a>
-                <a href="#contato" class="text-text-dark hover:text-accent-pink transition">Contato</a>
             </div>
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-text-dark hover:text-accent-pink focus:outline-none">
@@ -80,45 +117,44 @@
             </div>
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">Sobre</a>
+            <a href="#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">O Curso</a>
             <a href="#depoimentos" class="block py-2 text-text-dark hover:text-accent-pink transition">Depoimentos</a>
             <a href="dicas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
             <a href="simuladores.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Simuladores</a>
-            <a href="#contato" class="block py-2 text-text-dark hover:text-accent-pink transition">Contato</a>
         </div>
     </header>
 
     <main>
-        <section class="container mx-auto px-6 py-24 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-text-light">Mentoria Aprovação Psycho</h1>
-            <p class="text-xl md:text-2xl font-light text-primary-purple mb-8">Sua Vaga na Carreira Policial Começa Aqui.</p>
-            <p class="max-w-3xl mx-auto text-lg text-text-dark mb-12">
-                O exame psicotécnico é a etapa que mais reprova. Não deixe seu sonho acabar aqui. Nossa mentoria especializada prepara você para superar os testes psicológicos dos concursos mais concorridos do país.
-            </p>
-            <a href="https://wa.me/5585991982168?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Aprovação%20Psycho." target="_blank" class="cta-button font-bold py-4 px-10 rounded-md text-lg inline-flex items-center">
-                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.024 3.78A6.248 6.248 0 003.78 10.024c0 1.63.62 3.122 1.673 4.227l-1.22 3.658 3.76-.99A6.248 6.248 0 0010.024 16.27a6.248 6.248 0 006.246-6.246 6.248 6.248 0 00-6.246-6.244zm0 11.268a5.02 5.02 0 01-2.52-.693l-.178-.107-1.875.495.504-1.83-.117-.184a5.02 5.02 0 01-3.03-4.595A5.024 5.024 0 0110.024 5.02a5.024 5.024 0 015.024 5.024 5.024 5.024 0 01-5.024 5.024z"></path></svg>
-                Fale com um Especialista Agora!
-            </a>
+        <section class="hero-bg">
+            <div class="container mx-auto px-6 py-32 text-center">
+                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4 text-text-pink "><span style="color: var(--accent-pink); ">MENTORIA APROVAÇÃO PSYCHO</span></h1>
+                <h1 class="text-4xl md:text-4xl font-black leading-tight mb-4 text-text-light">O Psicotécnico Não Será Mais Um Problema</h1>
+                <p class="text-xl md:text-2xl font-light text-primary-purple mb-8">Conquiste sua aprovação na etapa que mais elimina candidatos.</p>
+                <p class="max-w-3xl mx-auto text-lg text-text-dark mb-12">
+                   Nossa mentoria especializada descomplica os testes psicológicos e te prepara para os concursos mais concorridos do país, alinhando seu perfil às exigências da carreira policial.
+                </p>
+                <a href="https://wa.me/5585991982168?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20Aprovação%20Psycho." target="_blank" class="cta-button font-bold py-4 px-10 rounded-md text-lg inline-flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.024 3.78A6.248 6.248 0 003.78 10.024c0 1.63.62 3.122 1.673 4.227l-1.22 3.658 3.76-.99A6.248 6.248 0 0010.024 16.27a6.248 6.248 0 006.246-6.246 6.248 6.248 0 00-6.246-6.244zm0 11.268a5.02 5.02 0 01-2.52-.693l-.178-.107-1.875.495.504-1.83-.117-.184a5.02 5.02 0 01-3.03-4.595A5.024 5.024 0 0110.024 5.02a5.024 5.024 0 015.024 5.024 5.024 5.024 0 01-5.024 5.024z"></path></svg>
+                    Falar com Especialista
+                </a>
+            </div>
         </section>
 
         <!-- Seção de Urgência -->
-        <section class="pb-12 bg-bg-dark">
+        <section class="py-12 bg-bg-dark">
             <div class="container mx-auto px-6">
-                <div class="bg-bg-card border border-primary-purple rounded-lg p-8 text-center shadow-lg">
+                 <div class="bg-bg-card border border-primary-purple rounded-lg p-8 text-center shadow-lg">
                     <h2 class="text-2xl md:text-3xl font-extrabold mb-3 text-accent-blue">⏳ Última Chamada para a Próxima Turma!</h2>
                     <p class="max-w-3xl mx-auto text-lg text-text-dark mb-6">
-                        A procura pela nossa mentoria é alta. Esta pode ser a sua última oportunidade de garantir uma preparação de elite antes do seu concurso.
+                        A procura pela nossa mentoria <span class="font-bold text-text-light">APROVAÇÃO <span style="color: var(--accent-pink);">PSYCHO</span></span> é alta. Esta pode ser a sua última oportunidade de garantir uma preparação de elite antes do seu concurso.
                     </p>
                     <div class="my-6">
                         <span class="inline-block bg-primary-purple/20 border border-primary-purple text-white font-bold tracking-widest text-xl py-3 px-6 rounded-md">
                             RESTAM APENAS <span id="vagas-restantes">7</span> VAGAS!
                         </span>
                     </div>
-                    <p class="max-w-3xl mx-auto text-md text-text-dark mb-8">
-                        Não arrisque o seu sonho. Garanta hoje a sua preparação e chegue no dia do psicotécnico com a confiança de quem vai ser aprovado.
-                    </p>
                     <a href="https://wa.me/5585991982168?text=Olá!%20Vi%20que%20restam%20poucas%20vagas%20e%20quero%20garantir%20a%20minha!" target="_blank" class="cta-button font-bold py-4 px-10 rounded-md text-lg inline-flex items-center">
-                         GARANTIR MINHA VAGA AGORA
+                         GARANTIR MINHA VAGA
                     </a>
                 </div>
             </div>
@@ -126,28 +162,43 @@
         
         <section id="sobre" class="py-20">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl text-center mb-2 section-title">Prepare-se para as Principais Carreiras</h2>
-                <p class="text-center section-subtitle mb-12">Nosso método é validado e focado nos perfis exigidos.</p>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
-                     <div class="flex flex-col items-center p-6 card">
-                        <svg class="w-16 h-16 mb-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.789-2.75 9.565M12 11c0-3.517 1.009-6.789 2.75-9.565M12 11H3m9 0h9"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.882c-2.36 2.36-3.882 5.682-3.882 9.118h7.764c0-3.436-1.522-6.758-3.882-9.118z"></path></svg>
-                        <h3 class="font-bold text-lg text-text-light mt-2">Polícia Militar</h3>
+                <h2 class="text-3xl md:text-4xl text-center mb-2 section-title">Preparação Focada na Sua Carreira</h2>
+                <p class="text-center section-subtitle mb-12">Nosso método é focado nos perfis exigidos em cada corporação.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+                    <div class="card career-card">
+                        <div class="img-container">
+                            <img src="https://www.conjur.com.br/wp-content/uploads/2023/12/pm_ce.jpeg" alt="[Imagem de policial militar em formação]" class="w-full h-64 object-cover">
+                            <div class="overlay"></div>
+                        </div>
+                        <h3 class="font-bold text-lg text-text-light p-4 -mt-12 z-10 relative">Polícia Militar</h3>
                     </div>
-                    <div class="flex flex-col items-center p-6 card">
-                        <svg class="w-16 h-16 mb-4 text-accent-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
-                        <h3 class="font-bold text-lg text-text-light mt-2">Polícia Civil</h3>
+                     <div class="card career-card">
+                        <div class="img-container">
+                            <img src="https://cn7.com.br/wp-content/uploads/2023/06/policia-civil-ce-e1709130817698.jpg" alt="[Imagem de um investigador da polícia civil]" class="w-full h-64 object-cover">
+                            <div class="overlay"></div>
+                        </div>
+                        <h3 class="font-bold text-lg text-text-light p-4 -mt-12 z-10 relative">Polícia Civil</h3>
                     </div>
-                    <div class="flex flex-col items-center p-6 card">
-                         <svg class="w-16 h-16 mb-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.016h-.008v-.016z"></path></svg>
-                        <h3 class="font-bold text-lg text-text-light mt-2">Polícia Federal</h3>
+                     <div class="card career-card">
+                        <div class="img-container">
+                            <img src="https://conteudo.imguol.com.br/c/noticias/0a/2025/04/28/agente-da-policia-federal-1745881253445_v2_900x506.jpg" alt="[Imagem de uma operação da polícia federal]" class="w-full h-64 object-cover">
+                            <div class="overlay"></div>
+                        </div>
+                        <h3 class="font-bold text-lg text-text-light p-4 -mt-12 z-10 relative">Polícia Federal</h3>
                     </div>
-                    <div class="flex flex-col items-center p-6 card">
-                        <svg class="w-16 h-16 mb-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12l-9-9-9 9m18 0h-3.375M3 12H.375m11.25 0V21m-4.5 0h9"></path></svg>
-                        <h3 class="font-bold text-lg text-text-light mt-2">Guarda Municipal</h3>
+                     <div class="card career-card">
+                        <div class="img-container">
+                            <img src="https://guardamunicipal.prefeitura.rio/wp-content/uploads/sites/23/2025/03/3D3A6153-scaled-e1741277829765.jpg" alt="[Imagem de uma viatura da guarda municipal]" class="w-full h-64 object-cover">
+                             <div class="overlay"></div>
+                        </div>
+                        <h3 class="font-bold text-lg text-text-light p-4 -mt-12 z-10 relative">Guarda Municipal</h3>
                     </div>
-                    <div class="flex flex-col items-center p-6 card">
-                         <svg class="w-16 h-16 mb-4 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path></svg>
-                        <h3 class="font-bold text-lg text-text-light mt-2">Polícia Penal</h3>
+                     <div class="card career-card">
+                        <div class="img-container">
+                            <img src="https://dhg1h5j42swfq.cloudfront.net/2025/03/18143235/policial-penal-pavilhao.jpg" alt="[Imagem de um agente da polícia penal]" class="w-full h-64 object-cover">
+                            <div class="overlay"></div>
+                        </div>
+                        <h3 class="font-bold text-lg text-text-light p-4 -mt-12 z-10 relative">Polícia Penal</h3>
                     </div>
                 </div>
             </div>
@@ -159,14 +210,12 @@
                 <p class="text-center section-subtitle mb-12">Histórias de sucesso que nos inspiram.</p>
                 <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
                     <!-- Depoimento 1 -->
-                    <div class="card p-8 flex flex-col">
-                        <div class="flex-grow">
+                    <div class="card p-8 flex flex-col relative testimonial-card">
+                        <div class="flex-grow z-10">
                             <p class="text-text-dark italic">"A mentoria foi um divisor de águas. Cheguei no psicotécnico confiante e preparado, sabendo exatamente o que fazer. As dicas sobre o perfil e os simuladores foram essenciais. Aprovado!"</p>
                         </div>
-                        <div class="flex items-center mt-6 pt-6 border-t border-gray-700">
-                            <div class="w-14 h-14 rounded-full bg-bg-dark flex items-center justify-center mr-4 border-2 border-primary-purple">
-                                <svg class="w-8 h-8 text-primary-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                            </div>
+                        <div class="flex items-center mt-6 pt-6 border-t border-gray-700 z-10">
+                            <img src="https://placehold.co/100x100/100f1c/f0f0f0?text=CM" alt="[Foto do Aluno]" class="w-14 h-14 rounded-full object-cover mr-4 border-2 border-primary-purple">
                             <div>
                                 <h4 class="font-bold text-lg text-text-light">Carlos M.</h4>
                                 <p class="text-sm text-accent-blue font-semibold">Aprovado PM-PE</p>
@@ -174,14 +223,12 @@
                         </div>
                     </div>
                     <!-- Depoimento 2 -->
-                    <div class="card p-8 flex flex-col">
-                        <div class="flex-grow">
+                    <div class="card p-8 flex flex-col relative testimonial-card">
+                        <div class="flex-grow z-10">
                             <p class="text-text-dark italic">"Eu tinha muito receio da entrevista, mas a simulação com a IA e as dicas do curso me deram a segurança que eu precisava para responder com clareza e objetividade. Recomendo demais o Aprovação Psycho!"</p>
                         </div>
-                        <div class="flex items-center mt-6 pt-6 border-t border-gray-700">
-                            <div class="w-14 h-14 rounded-full bg-bg-dark flex items-center justify-center mr-4 border-2 border-primary-purple">
-                                <svg class="w-8 h-8 text-primary-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                            </div>
+                        <div class="flex items-center mt-6 pt-6 border-t border-gray-700 z-10">
+                            <img src="https://placehold.co/100x100/100f1c/f0f0f0?text=JP" alt="[Foto da Aluna]" class="w-14 h-14 rounded-full object-cover mr-4 border-2 border-primary-purple">
                             <div>
                                 <h4 class="font-bold text-lg text-text-light">Juliana P.</h4>
                                 <p class="text-sm text-accent-blue font-semibold">Aprovada PC-RJ</p>
@@ -189,14 +236,12 @@
                         </div>
                     </div>
                     <!-- Depoimento 3 -->
-                    <div class="card p-8 flex flex-col">
-                        <div class="flex-grow">
+                    <div class="card p-8 flex flex-col relative testimonial-card">
+                        <div class="flex-grow z-10">
                             <p class="text-text-dark italic">"Os testes de atenção eram o meu ponto fraco. Depois de treinar no simulador do site e aplicar as técnicas ensinadas na mentoria, meu desempenho melhorou 100%. Valeu cada centavo!"</p>
                         </div>
-                        <div class="flex items-center mt-6 pt-6 border-t border-gray-700">
-                            <div class="w-14 h-14 rounded-full bg-bg-dark flex items-center justify-center mr-4 border-2 border-primary-purple">
-                                <svg class="w-8 h-8 text-primary-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                            </div>
+                        <div class="flex items-center mt-6 pt-6 border-t border-gray-700 z-10">
+                           <img src="https://placehold.co/100x100/100f1c/f0f0f0?text=RF" alt="[Foto do Aluno]" class="w-14 h-14 rounded-full object-cover mr-4 border-2 border-primary-purple">
                             <div>
                                 <h4 class="font-bold text-lg text-text-light">Ricardo F.</h4>
                                 <p class="text-sm text-accent-blue font-semibold">Aprovado PP-GO</p>
@@ -207,7 +252,7 @@
             </div>
         </section>
         
-        <section id="contato" class="py-20">
+        <section id="contato" class="py-20 bg-bg-card">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-text-light">Não Deixe a Aprovação para Depois!</h2>
                 <p class="max-w-2xl mx-auto text-lg text-text-dark mb-10">
@@ -244,7 +289,4 @@
     </script>
 </body>
 </html>
-
-
-
 
