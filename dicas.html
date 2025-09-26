@@ -30,6 +30,34 @@
         .section-subtitle {
              color: var(--primary-purple);
         }
+        .tip-card {
+            background-color: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .tip-card-header {
+            cursor: pointer;
+            padding: 1.5rem;
+        }
+        .tip-card:hover {
+            border-color: var(--primary-purple);
+        }
+        .tip-card-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            border-top: 1px solid #333;
+        }
+        .cta-button { 
+            transition: all 0.3s ease; 
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        .cta-button:hover { 
+            background-color: transparent;
+            color: var(--accent-pink);
+        }
     </style>
 </head>
 <body>
@@ -57,67 +85,100 @@
             </div>
         </nav>
         <div id="mobile-menu-dicas" class="hidden md:hidden px-6 pb-4">
-            <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">Sobre</a>
+             <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">Sobre</a>
             <a href="dicas.html" class="block py-2 text-accent-pink font-bold transition">Dicas de Testes</a>
             <a href="simuladores.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Simuladores</a>
             <a href="index.html#contato" class="block py-2 text-text-dark hover:text-accent-pink transition">Contato</a>
         </div>
     </header>
-    
+
     <main class="py-20">
-        <div class="container mx-auto px-6">
-            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Domine os Testes Psicológicos</h1>
-            <p class="text-center section-subtitle mb-12">Dicas valiosas para se destacar.</p>
-            <div class="max-w-4xl mx-auto space-y-4" x-data="{ open: null }">
-                <div class="border border-[#333] rounded-lg bg-bg-card">
-                    <button @click="open = open === 1 ? null : 1" class="w-full text-left p-4 font-semibold flex justify-between items-center text-text-light">
-                        <span>Teste de Personalidade (BFP)</span>
-                        <svg class="w-5 h-5 transition-transform text-primary-purple" :class="{ 'rotate-180': open === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open === 1" x-collapse class="p-4 border-t border-[#333]">
-                        <ul class="space-y-2 text-text-dark">
-                            <li><strong class="text-accent-pink">Tempo:</strong> Sem limite, média de 20 a 40 minutos.</li>
-                            <li><strong class="text-accent-pink">Meta:</strong> Apresentar perfil alinhado ao cargo.</li>
-                            <li><strong class="text-accent-pink">Dica:</strong> O segredo é demonstrar compatibilidade com o perfil da carreira. O teste identifica inconsistências. Nossa mentoria ensina a alinhar suas respostas ao perfil esperado.</li>
+        <div class="container mx-auto px-6" x-data="{ open: 'bfp' }">
+            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Dicas Essenciais para os Testes</h1>
+            <p class="text-center section-subtitle mb-12">Entenda o que cada teste avalia e como se preparar.</p>
+
+            <div class="max-w-4xl mx-auto space-y-6">
+                <!-- Dica BFP -->
+                <div class="tip-card">
+                    <div @click="open = (open === 'bfp' ? '' : 'bfp')" class="tip-card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/80x80/100f1c/9f54ff?text=Perfil" alt="[Ícone de perfil]" class="w-12 h-12 mr-4 rounded-md">
+                            <div>
+                                <h2 class="text-xl font-bold text-text-light">BFP (Bateria Fatorial de Personalidade)</h2>
+                                <p class="text-sm">Avalia seu perfil e traços de personalidade.</p>
+                            </div>
+                        </div>
+                        <svg class="w-6 h-6 text-primary-purple transform transition-transform" :class="{'rotate-180': open === 'bfp'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div x-show="open === 'bfp'" x-collapse class="tip-card-content">
+                        <ul class="mt-4 space-y-3">
+                            <li><strong>🎯 Meta:</strong> Não existe "certo" ou "errado", mas sim adequação ao perfil do cargo (ex: baixo neuroticismo, alta socialização).</li>
+                            <li><strong>⏱️ Tempo:</strong> Geralmente sem tempo limite, mas a agilidade é observada.</li>
+                            <li><strong>💡 Dica Estratégica:</strong> Autoconhecimento é a chave. Compreenda o que a carreira policial exige do seu perfil e como suas características se alinham a isso. Nossa mentoria é focada em te ajudar a entender e demonstrar essa adequação.</li>
                         </ul>
                     </div>
                 </div>
-                <div class="border border-[#333] rounded-lg bg-bg-card">
-                    <button @click="open = open === 2 ? null : 2" class="w-full text-left p-4 font-semibold flex justify-between items-center text-text-light">
-                        <span>Teste de Atenção Dividida (TEADI)</span>
-                        <svg class="w-5 h-5 transition-transform text-primary-purple" :class="{ 'rotate-180': open === 2 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open === 2" x-collapse class="p-4 border-t border-[#333]">
-                         <ul class="space-y-2 text-text-dark">
-                            <li><strong class="text-accent-pink">Tempo:</strong> 5 minutos.</li>
-                            <li><strong class="text-accent-pink">Meta:</strong> Máximo de acertos, mínimo de erros e omissões.</li>
-                            <li><strong class="text-accent-pink">Dica:</strong> Crie um método de varredura visual (ex: de cima para baixo) e mantenha um ritmo constante para não cometer erros.</li>
+
+                <!-- Dica TEADI -->
+                <div class="tip-card">
+                    <div @click="open = (open === 'teadi' ? '' : 'teadi')" class="tip-card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/80x80/100f1c/ff00ff?text=Atenção" alt="[Ícone de atenção]" class="w-12 h-12 mr-4 rounded-md">
+                            <div>
+                                <h2 class="text-xl font-bold text-text-light">TEADI / Testes de Atenção</h2>
+                                <p class="text-sm">Mede sua capacidade de foco e atenção dividida.</p>
+                            </div>
+                        </div>
+                        <svg class="w-6 h-6 text-primary-purple transform transition-transform" :class="{'rotate-180': open === 'teadi'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div x-show="open === 'teadi'" x-collapse class="tip-card-content">
+                       <ul class="mt-4 space-y-3">
+                            <li><strong>🎯 Meta:</strong> Encontrar o máximo de alvos corretos, minimizando erros e omissões. A pontuação final é (Acertos - Erros - Omissões).</li>
+                            <li><strong>⏱️ Tempo:</strong> Extremamente curto e sob pressão, geralmente 3 a 5 minutos.</li>
+                            <li><strong>💡 Dica Estratégica:</strong> Treine a varredura visual. Crie um padrão de leitura (ex: de cima para baixo, da esquerda para a direita) e mantenha o ritmo. Nossos simuladores ajudam a automatizar esse processo.</li>
                         </ul>
                     </div>
                 </div>
-                <div class="border border-[#333] rounded-lg bg-bg-card">
-                    <button @click="open = open === 3 ? null : 3" class="w-full text-left p-4 font-semibold flex justify-between items-center text-text-light">
-                        <span>Teste de Memória Visual (Memória F)</span>
-                        <svg class="w-5 h-5 transition-transform text-primary-purple" :class="{ 'rotate-180': open === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open === 3" x-collapse class="p-4 border-t border-[#333]">
-                        <ul class="space-y-2 text-text-dark">
-                            <li><strong class="text-accent-pink">Tempo:</strong> 2 min para memorizar, 4 min para reconhecer.</li>
-                            <li><strong class="text-accent-pink">Meta:</strong> Percentil de acertos acima de 70-80%.</li>
-                            <li><strong class="text-accent-pink">Dica:</strong> Crie uma história ou associação mental para conectar as figuras, dando nomes ou características a elas.</li>
+                
+                <!-- Dica Memória -->
+                <div class="tip-card">
+                    <div @click="open = (open === 'memoria' ? '' : 'memoria')" class="tip-card-header flex justify-between items-center">
+                         <div class="flex items-center">
+                            <img src="https://placehold.co/80x80/100f1c/00c2ff?text=Memória" alt="[Ícone de memória]" class="w-12 h-12 mr-4 rounded-md">
+                            <div>
+                                <h2 class="text-xl font-bold text-text-light">MVR / Testes de Memória</h2>
+                                <p class="text-sm">Avalia sua capacidade de memorização visual a curto prazo.</p>
+                            </div>
+                        </div>
+                        <svg class="w-6 h-6 text-primary-purple transform transition-transform" :class="{'rotate-180': open === 'memoria'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div x-show="open === 'memoria'" x-collapse class="tip-card-content">
+                        <ul class="mt-4 space-y-3">
+                            <li><strong>🎯 Meta:</strong> Memorizar o máximo de detalhes (figuras, rostos, objetos) e reconhecê-los corretamente depois.</li>
+                            <li><strong>⏱️ Tempo:</strong> Cronometrado. Pouco tempo para memorizar e para responder.</li>
+                            <li><strong>💡 Dica Estratégica:</strong> Crie associações ou histórias com as imagens para facilitar a memorização. Ex: "O leão está a usar o chapéu". Técnicas de mnemônica são ensinadas em detalhe no nosso curso.</li>
                         </ul>
                     </div>
                 </div>
             </div>
+            
+            <div class="mt-16 text-center">
+                 <h3 class="text-2xl font-bold text-text-light">Pronto para treinar na prática?</h3>
+                 <p class="text-text-dark my-4">A teoria é importante, mas a prática leva à aprovação. Acesse nossos simuladores.</p>
+                 <a href="simuladores.html" class="cta-button font-bold py-3 px-8 rounded-md text-lg inline-flex items-center shadow-lg">
+                    Acessar Simuladores Gratuitos
+                </a>
+            </div>
+
         </div>
     </main>
-
+    
     <footer class="border-t border-gray-800 mt-20">
         <div class="container mx-auto px-6 py-8 text-center">
             <p class="text-sm text-text-dark">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
         </div>
     </footer>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>
