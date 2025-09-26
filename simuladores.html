@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simuladores - Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,17 +72,18 @@
     <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <a href="index.html" class="flex items-center space-x-2">
+                <a href="index.html" class="flex items-center">
+                     <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
                     <span class="text-xl font-black text-text-light tracking-wider">
-                        APROVAÇÃO <span style="color: var(--accent-pink);">PSYCHO</span>
+                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
                     </span>
                 </a>
             </div>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">Sobre</a>
+                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">O Curso</a>
+                <a href="equipe.html" class="text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
                 <a href="dicas.html" class="text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
                 <a href="simuladores.html" class="text-accent-pink font-bold transition">Simuladores</a>
-                <a href="index.html#contato" class="text-text-dark hover:text-accent-pink transition">Contato</a>
             </div>
             <div class="md:hidden">
                 <button id="mobile-menu-button-sim" class="text-text-dark hover:text-accent-pink focus:outline-none">
@@ -90,10 +92,10 @@
             </div>
         </nav>
         <div id="mobile-menu-sim" class="hidden md:hidden px-6 pb-4">
-            <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">Sobre</a>
+             <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">O Curso</a>
+            <a href="equipe.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
             <a href="dicas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
             <a href="simuladores.html" class="block py-2 text-accent-pink font-bold transition">Simuladores</a>
-            <a href="index.html#contato" class="block py-2 text-text-dark hover:text-accent-pink transition">Contato</a>
         </div>
     </header>
 
@@ -110,12 +112,12 @@
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
                     </div>
                     <div @click="currentSimulator = 'teadi'" class="p-8 card text-center cursor-pointer">
-                        <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador de Atenção</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador TEADI</h3>
                         <p class="text-text-dark mb-6">Teste sua atenção dividida em uma simulação fiel ao teste oficial.</p>
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
                     </div>
                      <div @click="currentSimulator = 'mvr'" class="p-8 card text-center cursor-pointer">
-                        <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador de Memória</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador MVR (Memória)</h3>
                         <p class="text-text-dark mb-6">Teste sua memória visual reconhecendo figuras em um tempo limitado.</p>
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
                     </div>
@@ -148,7 +150,6 @@
                             <li>Serão apresentadas <strong>10 frases</strong>.</li>
                             <li>Você terá <strong>3 minutos</strong> para responder.</li>
                             <li>Para cada uma, indique o quanto você concorda usando a escala de 1 a 7.</li>
-                            <li>Não há respostas "certas" ou "erradas".</li>
                         </ul>
                         <button @click="startTest()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
                             Iniciar Amostra
@@ -195,7 +196,7 @@
                            <p class="font-bold text-yellow-400">Quer uma análise completa e detalhada?</p>
                            <p class="text-sm text-text-dark">O teste completo avalia 5 grandes fatores da personalidade através de 126 questões. Entender seu perfil em detalhes é crucial para a aprovação.</p>
                         </div>
-                        <a href="https://wa.me/5500000000000?text=Olá!%20Fiz%20a%20amostra%20do%20teste%20BFP%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20análise%20completa%20e%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
+                        <a href="https://wa.me/5585991982168?text=Olá!%20Fiz%20a%20amostra%20do%20teste%20BFP%20e%20gostaria%20de%20saber%20mais%20sobre%20a%20análise%20completa%20e%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
                             Falar com Especialista
                         </a>
                         <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Amostra</button>
@@ -214,7 +215,7 @@
                     Voltar para Seleção
                 </button>
                 <div class="mb-10 text-center">
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Atenção Dividida</h1>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Atenção Dividida (TEADI)</h1>
                     <p class="text-center text-lg text-text-dark max-w-3xl mx-auto mt-4">Encontre os 3 símbolos-alvo o mais rápido que puder. Pontuação = Acertos - (Erros + Omissões).</p>
                 </div>
                 <div x-data="teadiSimulator()" class="max-w-6xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card">
@@ -290,7 +291,7 @@
                            <p class="text-sm text-text-dark" x-text="resultMessage().message"></p>
                         </div>
                         <p class="text-center text-text-dark mb-8">A atenção dividida é crucial para a atividade policial. Em nossa mentoria, aplicamos técnicas e treinos avançados para maximizar seu desempenho.</p>
-                        <a href="https://wa.me/5500000000000?text=Olá!%20Fiz%20o%20simulado%20TEADI%20e%20quero%20melhorar%20meu%20desempenho%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
+                        <a href="https://wa.me/5585991982168?text=Olá!%20Fiz%20o%20simulado%20TEADI%20e%20quero%20melhorar%20meu%20desempenho%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
                             Quero Treinar de Verdade
                         </a>
                         <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
@@ -309,7 +310,7 @@
                     Voltar para Seleção
                 </button>
                 <div class="mb-10 text-center">
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Memória Visual</h1>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Memória Visual (MVR)</h1>
                     <p class="mt-4 text-lg text-text-dark max-w-3xl mx-auto">Memorize as figuras e depois encontre-as no meio de outras. Sua capacidade de memorização será testada!</p>
                 </div>
                 <div x-data="mvrSimulator()" class="max-w-4xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card text-text-light">
@@ -352,12 +353,12 @@
                                 <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-5 md:grid-cols-6 gap-4">
+                        <div class="grid grid-cols-6 md:grid-cols-10 gap-2">
                              <template x-for="(item, index) in recognitionSet" :key="item.id">
                                 <div @click="selectItem(item, index)"
                                      :class="{ 'selected': item.selected }"
-                                     class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg p-2 cursor-pointer">
-                                    <div x-html="item.svg" class="w-12 h-12"></div>
+                                     class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg p-1 cursor-pointer">
+                                    <div x-html="item.svg" class="w-10 h-10"></div>
                                 </div>
                             </template>
                         </div>
@@ -388,7 +389,7 @@
                            <p class="text-sm text-text-dark" x-text="resultMessage().message"></p>
                         </div>
                         <p class="text-center text-text-dark mb-8">Uma boa memória visual é um diferencial. Em nossa mentoria, ensinamos técnicas de mnemônica para otimizar sua capacidade de memorização.</p>
-                        <a href="https://wa.me/5500000000000?text=Olá!%20Fiz%20o%20simulado%20MVR%20e%20quero%20melhorar%20minha%20memória%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
+                        <a href="https://wa.me/5585991982168?text=Olá!%20Fiz%20o%20simulado%20MVR%20e%20quero%20melhorar%20minha%20memória%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
                             Quero Melhorar Minha Memória
                         </a>
                         <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
@@ -434,7 +435,7 @@
                         <div class="text-center p-6 mt-6 bg-bg-dark rounded-lg border border-[#333]">
                             <h4 class="font-bold text-lg text-text-light">Gostou da análise?</h4>
                             <p class="text-text-dark my-2">Na mentoria completa, simulamos diversos cenários com análise detalhada de um especialista.</p>
-                            <a href="https://wa.me/5500000000000?text=Olá!%20Recebi%20o%20feedback%20da%20IA%20e%20quero%20saber%20mais%20sobre%20a%20preparação%20para%20a%20entrevista." target="_blank" class="mt-4 cta-button font-bold py-2 px-6 rounded-md inline-flex items-center justify-center">
+                            <a href="https://wa.me/5585991982168?text=Olá!%20Recebi%20o%20feedback%20da%20IA%20e%20quero%20saber%20mais%20sobre%20a%20preparação%20para%20a%20entrevista." target="_blank" class="mt-4 cta-button font-bold py-2 px-6 rounded-md inline-flex items-center justify-center">
                                 Quero me preparar de verdade
                             </a>
                         </div>
@@ -482,10 +483,10 @@
 
             Alpine.data('bfpSimulator', () => ({
                 questions: [ { id: 1, text: "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS", scale: "A2" }, { id: 2, text: "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM", scale: "S1" }, { id: 3, text: "GOSTO DE FALAR SOBRE MIM", scale: "E2" }, { id: 4, text: "TENHO UM CORAÇÃO MOLE", scale: "S1" }, { id: 5, text: "FALO TUDO QUE PENSO", scale: "E2" }, { id: 6, text: "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES", scale: "A3" }, { id: 7, text: "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES", scale: "S3" }, { id: 8, text: "SOU DIVERTIDO", scale: "E4" }, { id: 9, text: "TOMO CUIDADO COM O QUE FALO", scale: "R2" }, { id: 10, text: "DIFICILMENTE PERDOO", scale: "S3" } ],
-                state: 'instructions', currentQuestionIndex: 0, answers: {}, scaleLabels: ['Discordo totalmente', 'Discordo', 'Discordo em parte', 'Não concordo nem discordo', 'Concordo em parte', 'Concordo', 'Concordo totalmente'], 
-                timeLeft: 180, timer: '03:00', interval: null,
-                startTest() { 
-                    this.state = 'testing'; 
+                state: 'instructions', currentQuestionIndex: 0, answers: {}, scaleLabels: ['Discordo totalmente', 'Discordo', 'Discordo em parte', 'Não concordo nem discordo', 'Concordo em parte', 'Concordo', 'Concordo totalmente'],
+                timer: '03:00', timeLeft: 180, interval: null,
+                startTest() {
+                    this.state = 'testing';
                     this.timeLeft = 180;
                     this.interval = setInterval(() => {
                         this.timeLeft--;
@@ -495,15 +496,9 @@
                         if (this.timeLeft <= 0) {
                             this.showPreviewResults();
                         }
-                    }, 1000); 
+                    }, 1000);
                 },
-                resetTest() { 
-                    this.state = 'instructions'; 
-                    this.currentQuestionIndex = 0; 
-                    this.answers = {}; 
-                    clearInterval(this.interval); 
-                    this.timer = '03:00'; 
-                },
+                resetTest() { this.state = 'instructions'; this.currentQuestionIndex = 0; this.answers = {}; clearInterval(this.interval); this.timer = '03:00'; },
                 selectAnswer(value) { const questionId = this.questions[this.currentQuestionIndex].id; this.answers[questionId] = value; },
                 nextQuestion() { if (this.currentQuestionIndex < this.questions.length - 1) { this.currentQuestionIndex++; } },
                 prevQuestion() { if (this.currentQuestionIndex > 0) { this.currentQuestionIndex--; } },
@@ -566,16 +561,16 @@
                     { id: 18, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"></path></svg>' },
                     { id: 19, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 10a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"></path></svg>' },
                     { id: 20, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"></path></svg>' },
-                    { id: 21, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V6H14v9.5c0 1.38-1.12 2.5-2.5 2.5S9 16.88 9 15.5V5c0-2.21 1.79-4 4-4s4 1.79 4 4v11.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5V6h-1z"></path></svg>' },
-                    { id: 22, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 8h-1.81c-.45-1.73-1.98-3-3.83-3-1.04 0-1.98.44-2.66 1.14-.68-.7-1.62-1.14-2.66-1.14-1.85 0-3.38 1.27-3.83 3H5c-1.1 0-2 .9-2 2v4c0 .75.4 1.41 1 1.73V19c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-3.27c.6-.32 1-.98 1-1.73v-4c0-1.1-.9-2-2-2zm-7 11h-2v-2h2v2zm-2-4h-2v-2h2v2zm6 0h-2v-2h2v2z"></path></svg>' },
-                    { id: 23, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3.2"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"></path></svg>' },
-                    { id: 24, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"></path></svg>' },
-                    { id: 25, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.16 2.83L3.51 9.87c-.88.66-1.1 1.89-.52 2.92l8.36 14.4c.59 1.03 1.86 1.34 2.88.75l8.65-7.04c.88-.66 1.1-1.89.52-2.92L14.04 3.58c-.58-1.03-1.85-1.34-2.88-.75z"></path></svg>' },
-                    { id: 26, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm6 13.06L12 19.22l-6-3.16V8.94l6 3.16 6-3.16v6.12z"></path></svg>' },
-                    { id: 27, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2c-.51 2.31-1.28 4.4-2.17 6.24-1.27 2.63-2.07 5.03-2.07 6.76 0 3.73 3.13 6.64 6.74 6.24 3.49-.39 5.31-4.1 3.93-7.23-1.01-2.28-2.96-4.56-4.93-6.62C12.18 4.68 11.51 3.2 11 2z"></path></svg>' },
-                    { id: 28, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 4h-3V2h-4v2H7c-1.66 0-3 1.34-3 3v9c0 .83.67 1.5 1.5 1.5S7 16.83 7 16v-9c0-.55.45-1 1-1h8c.55 0 1 .45 1 1v9c0 .83.67 1.5 1.5 1.5S20 16.83 20 16V7c0-1.66-1.34-3-3-3zM7 20h2v4H7zm8 0h2v4h-2z"></path></svg>' },
-                    { id: 29, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path></svg>' },
-                    { id: 30, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"></path></svg>' },
+                    { id: 21, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5M17,9.5C17,10.3 16.3,11 15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5M12,14C13.9,14 15.6,15.2 16.2,16.9H7.8C8.4,15.2 10.1,14 12,14Z" /></svg>' },
+                    { id: 22, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" /></svg>' },
+                    { id: 23, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" /></svg>' },
+                    { id: 24, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>' },
+                    { id: 25, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M5.82,10.41L7.4,12L12.06,7.35L11,6.29L7.4,9.89L4.4,6.89L3.34,8L5.82,10.41M18,11C18,7.69 15.31,5 12,5C10.6,5 9.32,5.5 8.29,6.26L9.7,7.67C10.39,7.25 11.17,7 12,7C14.21,7 16,8.79 16,11H18M1,4.27L2.28,3L21,21.72L19.73,23L17.73,21C16.53,21.58 15.17,22 13.72,22C9.53,22 6.13,19.5 4.62,16H7.1C8.25,18.55 10.77,20 13.72,20C14.73,20 15.68,19.78 16.5,19.42L15.03,17.95C14.29,18.16 13.5,18.28 12.69,18.28C9.5,18.28 6.78,16.33 5.82,13.41L1,7.59V4.27Z" /></svg>' },
+                    { id: 26, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" /></svg>' },
+                    { id: 27, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19,19H5V8H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M16,1H8V3H16V1Z" /></svg>' },
+                    { id: 28, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5,12A2.5,2.5 0 0,0 19,9.5A2.5,2.5 0 0,0 16.5,7A2.5,2.5 0 0,0 14,9.5A2.5,2.5 0 0,0 16.5,12M9,11A1,1 0 0,0 10,10A1,1 0 0,0 9,9A1,1 0 0,0 8,10A1,1 0 0,0 9,11M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" /></svg>' },
+                    { id: 29, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>' },
+                    { id: 30, svg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>' },
                 ],
                 memorizationSet: [], recognitionSet: [],
                 hits: 0, errors: 0, omissions: 0,
@@ -590,8 +585,8 @@
 
                 setupTest() {
                     const shuffledSymbols = this.shuffle([...this.symbols]);
-                    this.memorizationSet = shuffledSymbols.slice(0, 12).map(s => ({...s, isTarget: true}));
-                    const distractors = shuffledSymbols.slice(12, 30).map(s => ({...s, isTarget: false}));
+                    this.memorizationSet = shuffledSymbols.slice(0, 12).map(s => ({...s, isTarget: true})); // Aumentado para 12
+                    const distractors = shuffledSymbols.slice(12, 30).map(s => ({...s, isTarget: false})); // Aumentado para 18
                     this.recognitionSet = this.shuffle([...this.memorizationSet, ...distractors]).map(s => ({...s, selected: false}));
                 },
 
